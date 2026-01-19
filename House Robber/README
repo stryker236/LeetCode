@@ -1,0 +1,42 @@
+# House Robber — Recursion vs Iterative Dynamic Programming
+
+This exercise solves the *House Robber* problem: given a list of values representing money in houses, compute the maximum amount that can be robbed without ever taking two adjacent houses.
+
+The problem has a clear recurrence: at each position you either rob the current house and skip the next, or skip the current house and move on. The same logic can be implemented in two different ways: **top-down (recursive)** and **bottom-up (iterative)**.
+
+## Top-Down (Recursive)
+
+The top-down approach starts from the final question (“what is the best result from the first house?”) and recursively asks smaller sub-questions. Each call represents a decision point. Because the same subproblems appear many times, a cache (memoization) is used to store already computed results.
+
+This style is expressive and close to the mathematical definition of the problem. However, in Python it has practical downsides:
+
+- Every step is a function call.
+- The call stack grows with input size.
+- Large inputs can hit recursion limits.
+- Debugging deep call trees is harder.
+
+Conceptually, it works *from the goal downward* into subproblems.
+
+## Bottom-Up (Iterative)
+
+The bottom-up approach computes answers for small subproblems first and builds the final result step by step. Each position stores the best possible result up to that point, and the next state is derived from already known values.
+
+This version:
+
+- Uses no recursion.
+- Has predictable control flow.
+- Avoids stack growth.
+- Is faster in Python.
+- Makes the state evolution explicit.
+
+Conceptually, it works *from the base cases upward* to the final answer.
+
+## Core Difference
+
+Both approaches implement the same recurrence and produce the same result.  
+The difference is *direction and control*:
+
+- Top-down: start from the goal, discover what is needed.
+- Bottom-up: start from the base, build what is needed.
+
+In Python, for linear dynamic programming problems like this one, the bottom-up iterative form is usually the better choice due to performance and reliability.
