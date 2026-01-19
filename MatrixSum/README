@@ -1,0 +1,57 @@
+### Two Approaches and Their Complexity
+
+**Naive approach (recompute every step):**
+
+```python
+def matrixSum(nums):
+    score = 0
+    while nums[0]:
+        candidates = []
+        for row in nums:
+            best = max(row)      # O(m)
+            candidates.append(best)
+            row.remove(best)     # O(m)
+        score += max(candidates) # O(n)
+    return score
+```
+
+* `max(row)` scans the whole row → `O(m)`
+* `remove(best)` shifts elements → `O(m)`
+* This is repeated `m` times
+
+**Total complexity:**
+
+```
+O(n * m²)
+```
+
+The algorithm repeatedly scans and reshuffles large lists.
+
+---
+
+**Optimized approach (sort once, then pop):**
+
+```python
+def matrixSum(nums):
+    for row in nums:
+        row.sort()  # O(m log m) per row
+
+    score = 0
+    while nums[0]:
+        score += max(row.pop() for row in nums)  # pop = O(1), max = O(n)
+    return score
+```
+
+* Each row is sorted once → `O(n * m log m)`
+* Each iteration only pops one element per row (`O(1)`)
+* The `max` now runs over `n` values, not `m`
+
+**Total complexity:**
+
+```
+O(n * m log m)
+```
+
+**Key difference:**
+The first version performs linear work on full rows *m times* (quadratic).
+The second version pays the cost once (`sort`) and then uses constant-time operations (`pop`).
